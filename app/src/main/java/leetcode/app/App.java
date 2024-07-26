@@ -9,7 +9,7 @@ import static leetcode.utilities.StringUtils.join;
 import static leetcode.utilities.StringUtils.split;
 import static leetcode.app.MessageUtils.getMessage;
 
-import leetcode.utilities.H;
+import leetcode.utilities.J;
 import org.apache.commons.text.WordUtils;
 
 public class App {
@@ -19,9 +19,9 @@ public class App {
 //        String result = join(tokens);
 //        System.out.println(WordUtils.capitalize(result));
 //        int[] ary1 = {7,1,5,3,6};
-        int[] ary1 = {1,2,4,2,5,7,2,4,9,0};
+        int[] ary1 = {1,1,1,1,1};
 
-        System.out.println(H.maxProfit(ary1));
+        System.out.println(J.jump(ary1));
 
         for(int a: ary1){
             System.out.print(a + " ");
