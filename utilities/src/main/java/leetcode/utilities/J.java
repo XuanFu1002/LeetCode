@@ -24,8 +24,6 @@
  */
 package leetcode.utilities;
 
-import com.sun.org.apache.xerces.internal.impl.xs.XSImplementationImpl;
-
 public class J {
     static int count;
     public static int jump(int[] ary){
@@ -71,7 +69,7 @@ public class J {
         count = (ary.length == 1)?0:1;
 
         for(int i=0; i<ary.length; i++){
-            if(ary[i] >= ary.length-1) return count;
+            if(ary[i] >= ary.length-1-i) return count;      // -i => remainSteps, make more sense => ㄜ其實只有index 0會用到ㄟ，因為後續findFarthestIndex，就會return ary.length -1就會導致code Return
             int tmp = findFarthestIndex(ary,i,ary[i]);
             if(tmp == 0) return 0;
             else if(tmp == ary.length -1) return ++count;

@@ -9,7 +9,9 @@ import static leetcode.utilities.StringUtils.join;
 import static leetcode.utilities.StringUtils.split;
 import static leetcode.app.MessageUtils.getMessage;
 
-import leetcode.utilities.J;
+import leetcode.utilities.Q;
+import leetcode.utilities.R;
+
 import org.apache.commons.text.WordUtils;
 
 public class App {
@@ -18,13 +20,17 @@ public class App {
 //        tokens = split(getMessage());
 //        String result = join(tokens);
 //        System.out.println(WordUtils.capitalize(result));
-//        int[] ary1 = {7,1,5,3,6};
-        int[] ary1 = {1,1,1,1,1};
 
-        System.out.println(J.jump(ary1));
+        int[] gas = {5,1,2,3,4};
+        int[] cost = {4,4,1,5,1};
+//        int[] heights= {2,8,5,5,6,1,7,4,5};
+//        int[] heights= {8,9,3,6,9,6,8,0,7,6,8,1};
+//        int[] heights= {1,9,7,1,3,6,4,7,4,8,3,6,3,5,3,7};
+//        int[] heights= {0,1,0,2,1,0,1,3,2,1,2,1};
+        int[] heights= {4,2,0,3,2,5};
+        String string = "MCMXCIV";
 
-        for(int a: ary1){
-            System.out.print(a + " ");
-        }
+        R r = new R();
+        System.out.println(r.otherApproach(string));
     }
 }
