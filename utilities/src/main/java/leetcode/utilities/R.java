@@ -101,6 +101,9 @@ public class R {
         int tmp = 0;
         int current = 0;
 
+        // notice here, use second variable to keep the value, provide for comparison, instead of using 「i+1」, avoid 「indexOutOfBound」
+        // 所以index從0到last沒問題
+        // => 當前「大於」前者，前一輪要扣除兩次，第一次上上一輪多加，第二次是因為本來就該扣除，所以times 2
         for(int i=0; i<s.length(); i++){
             current = judgement(s.charAt(i));
             if(current > tmp){
@@ -132,10 +135,5 @@ public class R {
             default:
                 return 0;
         }
-    }
-
-
-    public String romanToString(int number){
-        return "Test";
     }
 }

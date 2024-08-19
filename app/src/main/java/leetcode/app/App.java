@@ -12,6 +12,8 @@ import static leetcode.app.MessageUtils.getMessage;
 import leetcode.utilities.Q;
 import leetcode.utilities.R;
 
+import leetcode.utilities.S;
+import leetcode.utilities.U;
 import org.apache.commons.text.WordUtils;
 
 public class App {
@@ -29,8 +31,9 @@ public class App {
 //        int[] heights= {0,1,0,2,1,0,1,3,2,1,2,1};
         int[] heights= {4,2,0,3,2,5};
         String string = "MCMXCIV";
+        String[] test = {"acc","aaa","aaba"};
 
-        R r = new R();
-        System.out.println(r.otherApproach(string));
+        U u = new U();
+        System.out.println(u.longestCommonPrefix(test));
     }
 }
