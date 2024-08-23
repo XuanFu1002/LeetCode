@@ -32,7 +32,7 @@ public class App {
         String a = "sadbutsad";
         String b = "sad";
 
-        V v = new V();
-        System.out.println(v.strStr(a,b));
+        Z z = new Z();
+        z.isSubsequence("abc","ahbgdc");
     }
 }
