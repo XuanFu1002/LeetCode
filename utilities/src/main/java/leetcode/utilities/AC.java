@@ -146,12 +146,14 @@ public class AC {
                 continue;
             int j = i+1;
             int k = nums.length-1;
-            while(j<k){
+             while(j<k){
                 int sum = nums[i] + nums[j] + nums[k];
                 if(sum == 0){
                     list.add(Arrays.asList(nums[i],nums[j],nums[k]));
                     while(j<k && nums[j]==nums[j+1]) j++;
                     while(j<k && nums[k]==nums[k-1]) k--;
+                    j++;            //因為少了下面兩行，所以當找到加總為0的時候，並且左右element不相等的時候，index不會跳動，所以condition就會一直成立，就卡住了
+                    k--;
                 }else if(sum < 0)
                     j++;
                 else
