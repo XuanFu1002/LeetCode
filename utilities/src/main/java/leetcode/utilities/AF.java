@@ -16,8 +16,6 @@
  */
 package leetcode.utilities;
 
-import com.sun.javafx.image.IntPixelGetter;
-
 import java.util.*;
 
 public class AF {
@@ -67,7 +65,7 @@ public class AF {
         return result;
     }
 
-    public int[][] improvement(int[][] intervals){
+    public int[][] twice(int[][] intervals){
 //        List<List<Integer>> list = new ArrayList<>();
         List<int[]> list = new ArrayList<>();
         int[] tmp = new int[2];
@@ -101,6 +99,55 @@ public class AF {
 
             if(list.size() != index +1)
 //                list.add(tmp)     => don't forget!! this is pass by address, so after tmp value changed, the previous value will disappear
+                list.add(Arrays.copyOf(tmp,tmp.length));
+            else
+                list.set(index,Arrays.copyOf(tmp,tmp.length));
+        }
+
+        return list.toArray(new int[list.size()][]);
+    }
+
+    /**
+     * [[start,end],[m,n]]
+     * 1. [start,n]： end >= m & start > m (同區間，可銜接)
+     * 2. [start,end] [m,n]： end < m (不同區間)
+     * 3. [m,end]： m < start && n < end (重找下限)
+     * 4. [m,n]： m < start && n > end
+     * 4. [m,n] [start,end]：m < start & n < start (區間順序顛倒)
+     * @param intervals
+     * @return
+     */
+    public int[][] third(int[][] intervals){
+        List<int[]> list = new ArrayList<>();
+        int[] tmp = new int[2];
+        int start = intervals[0][0];
+        int end = intervals[0][1];
+        int index = 0;
+
+        for(int i=0; i<intervals.length; i++){      //notice end >= start
+            if(i > 0){
+                if(end < intervals[i][0]){      //不同區間
+                    start = intervals[i][0];
+                    end = intervals[i][1];
+                    index++;
+                }else if(intervals[i][0] >= start && intervals[i][1] > end){        //[start,n]
+                    end = intervals[i][1];
+                }else if(intervals[i][0] < start && intervals[i][1] <= end){         //[m,end]
+                    start = intervals[i][0];
+                }else if(intervals[i][0] < start && intervals[i][1] > end){         //[m,n]
+                    start = intervals[i][0];
+                    end = intervals[i][1];
+                }else if(intervals[i][0] < start && intervals[i][1] < start){       //[m,n] [start,end]
+                    list.set(index,new int[]{intervals[i][0], intervals[i][1]});
+                    list.add(Arrays.copyOf(tmp,tmp.length));
+                    index++;
+                    continue;
+                }
+            }
+
+            tmp[0]=start;
+            tmp[1]=end;
+            if(index+1 > list.size())
                 list.add(Arrays.copyOf(tmp,tmp.length));
             else
                 list.set(index,Arrays.copyOf(tmp,tmp.length));

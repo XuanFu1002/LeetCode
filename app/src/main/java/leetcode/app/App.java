@@ -26,14 +26,19 @@ public class App {
 //        int[] heights= {8,9,3,6,9,6,8,0,7,6,8,1};
 //        int[] heights= {1,9,7,1,3,6,4,7,4,8,3,6,3,5,3,7};
 //        int[] heights= {0,1,0,2,1,0,1,3,2,1,2,1};
-        int[][] heights= {{1,4},{0,6}};
+        int[][] heights= {{1,4},{0,0}};
         String string = "MCMXCIV";
         String[] test = {"acc","aaa","aaba"};
         String a = "sadbutsad";
         String b = "sad";
 
         AF af = new AF();
-        af.improvement(heights);
+        int[][] result = af.third(heights);
 
+        for(int[] i:result) {
+            System.out.println();
+            for (int value : i)
+                System.out.print(value + " ");
+        }
     }
 }
