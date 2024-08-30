@@ -114,45 +114,115 @@ public class AF {
      * 3. [m,end]： m < start && n < end (重找下限)
      * 4. [m,n]： m < start && n > end
      * 4. [m,n] [start,end]：m < start & n < start (區間順序顛倒)
+     *
+     * 歸根這裡是直接對source data做處理 => 設計下來就侷限在，左右相鄰的compare而已
+     * => 所以當遇上以下test case [[2,3],[4,5],[6,7],[8,9],[1,10]]時，就完全處理不了，
+     * 按照我的code output:[[2,3],[4,5],[6,7],[1,10]]，
+     * 但實際上是要回傳[[1,10]]
+     * => 所以即使我把general case分析出來，並個別都做if-else卻還是有bug
      * @param intervals
      * @return
      */
     public int[][] third(int[][] intervals){
         List<int[]> list = new ArrayList<>();
-        int[] tmp = new int[2];
+        if(intervals.length == 0)
+            return list.toArray(new int[0][]);
         int start = intervals[0][0];
         int end = intervals[0][1];
         int index = 0;
+        list.add(new int[]{start,end});
+        if(intervals.length == 1)
+            return list.toArray(new int[list.size()][]);
 
-        for(int i=0; i<intervals.length; i++){      //notice end >= start
-            if(i > 0){
-                if(end < intervals[i][0]){      //不同區間
-                    start = intervals[i][0];
-                    end = intervals[i][1];
-                    index++;
-                }else if(intervals[i][0] >= start && intervals[i][1] > end){        //[start,n]
-                    end = intervals[i][1];
-                }else if(intervals[i][0] < start && intervals[i][1] <= end){         //[m,end]
-                    start = intervals[i][0];
-                }else if(intervals[i][0] < start && intervals[i][1] > end){         //[m,n]
-                    start = intervals[i][0];
-                    end = intervals[i][1];
-                }else if(intervals[i][0] < start && intervals[i][1] < start){       //[m,n] [start,end]
-                    list.set(index,new int[]{intervals[i][0], intervals[i][1]});
-                    list.add(Arrays.copyOf(tmp,tmp.length));
-                    index++;
-                    continue;
+        for(int i=1; i<intervals.length; i++){
+            if(intervals[i][0] > end){
+                index++;
+                start = intervals[i][0];
+                end = intervals[i][1];
+                list.add(new int[]{start,end});         //count for additional memory space?
+            }else if(intervals[i][0] == end){
+                end = intervals[i][1];
+                list.set(index, new int[]{start,end});
+            }else{
+                if(intervals[i][0] >= start){
+//                    if(intervals[i][1] <= end){
+//                        continue;
+//                    }
+                    if(intervals[i][1] > end){
+                        end = intervals[i][1];
+                        list.set(index, new int[]{start,end});
+                    }
+                }else{
+                    if(intervals[i][1] < start){
+                        list.set(index,new int[]{intervals[i][0],intervals[i][1]});
+                        index++;
+                        list.add(new int[]{start,end});
+                    }else if(intervals[i][1] == start){
+                        start = intervals[i][0];
+                        list.set(index,new int[]{start,end});
+                    }else{
+                        if(intervals[i][1] > end){
+                            start = intervals[i][0];
+                            end = intervals[i][1];
+                            list.set(index,new int[]{start,end});
+                        }else{
+                            start = intervals[i][0];
+                            list.set(index,new int[]{start,end});
+                        }
+                    }
                 }
             }
-
-            tmp[0]=start;
-            tmp[1]=end;
-            if(index+1 > list.size())
-                list.add(Arrays.copyOf(tmp,tmp.length));
-            else
-                list.set(index,Arrays.copyOf(tmp,tmp.length));
         }
-
         return list.toArray(new int[list.size()][]);
+    }
+
+    /**
+     * 看到別人說「sort」key word!!
+     * => 對呀，如果我先對每組一維的start，先做大小排序，那後續在處理資料的時候，就完全不用去管加入list中的順序有誤
+     * ，就可以順順的一直拿start，end往下處理，事情就變得單純，而且也都能符合generalize case
+     * @param intervals
+     * @return
+     */
+    public int[][] otherApproach(int[][] intervals){
+        List<int[]> list = new ArrayList<>();
+        if(intervals.length == 0)
+            return intervals;
+
+        for(int i=1; i<intervals.length; i++)
+            sort(intervals,i-1,intervals[i][0],intervals[i][1]);
+
+        int index = 0;
+        int start = intervals[0][0];
+        int end = intervals[0][1];
+
+        for(int i=0; i<intervals.length; i++){
+            if(i>0){
+                if(intervals[i][0]>end){
+                    index++;
+                    start = intervals[i][0];
+                    end = intervals[i][1];
+                }else{          // only need to judge end, no start anymore, since we have already sorted data, therefore, newStart must greater or equal than oldStart, what we need to do is see whether update the end limit or not, or move to next interval
+                    if(intervals[i][1] > end)
+                        end = intervals[i][1];
+                }
+            }
+            if(list.size() < index+1)       //actual length not match
+                list.add(new int[]{start,end});
+            else
+                list.set(index, new int[]{start,end});
+        }
+        return list.toArray(new int[list.size()][]);
+    }
+
+    public void sort(int[][] intervals, int i, int left, int right){
+        for(;i>=0;i--){
+            if(intervals[i][0]>left){       //前往後塞，若前大於後
+                intervals[i+1][0] = intervals[i][0];
+                intervals[i+1][1] = intervals[i][1];
+            }else
+                break;
+        }
+        intervals[++i][0] = left;
+        intervals[i][1] = right;
     }
 }
