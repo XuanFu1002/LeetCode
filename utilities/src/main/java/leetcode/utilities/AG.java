@@ -22,6 +22,7 @@
  */
 package leetcode.utilities;
 
+import javax.naming.PartialResultException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -35,14 +36,37 @@ public class AG {
      * @return
      */
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        int[] tmp = new int[2];
-        int a = newInterval[0];
-        int b = newInterval[1];
+        List<int []> list = new ArrayList<>();
+        int i = 0;
 
-        for(int i=0; i<intervals.length; i++){
-            if(a<=intervals[i][1] && a>=intervals[i][0]) {
-                tmp[0] = intervals[i][0];
+        while(i<intervals.length){
+            if(newInterval[0]>intervals[i][1]){
+                list.add(intervals[i]);
+            }else if(intervals[i][0]>newInterval[1]){
+                list.add(newInterval);      //this is call by address, that's right, but why can write like this, since we only need one interval data, so is ok
+                newInterval = intervals[i];     //oh~, since here also pass by address, therefore, can see that value won't depend, since different address
+            }else{
+                newInterval[0] = Math.min(newInterval[0],intervals[i][0]);
+                newInterval[1] = Math.max(newInterval[1],intervals[i][1]);
             }
+            i++;
         }
+
+        list.add(newInterval);
+
+        return list.toArray(new int[list.size()][]);        //basic concept return array, in this case our ary sort one dimension, there the return data by toArray will suppose to be two dimension
+    }
+
+    public void test(){
+        List<int[]> list = new ArrayList<>();
+        int[] ary = new int[]{1,4};
+        list.add(ary);
+        for(int[] a:list)
+            System.out.println(a[0]+"\t"+a[1]);
+
+        ary[0] = 10;
+
+        for(int[] a:list)
+            System.out.println(a[0]+"\t"+a[1]);     //output => {10,4}  => since list.add(ary), is pass by address, not just value, so dynamic
     }
 }
