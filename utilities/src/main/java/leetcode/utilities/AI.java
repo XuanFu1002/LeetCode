@@ -74,4 +74,26 @@ public class AI {
         }
         return true;
     }
+
+    /**
+     *
+     * 還不能很確切的說為何time complexity，int[]表現會更好
+     * chat是說，hashMap DS會建立而外德hash table，而且可能會有cache miss的情況，就會導致cache與memory之間交換data的penalty
+     * ，再來就是new int[26]很小，不過說是因為這裡的範圍限定在a~z，萬一今天還包含國字、大小寫等等 ，用hashmap會更好、更方便，
+     * 因為使用hash function始終在查找key value更快，因為indexOf(c)，這是從index 0開始trace，所以worst case O(n)
+     * @param ransomNote
+     * @param magazine
+     * @return
+     */
+    public boolean otherApproach(String ransomNote, String magazine){
+        int[] alphabet = new int[26];       //only 26 characters
+
+        for(char c:ransomNote.toCharArray()){
+            int tmp = magazine.indexOf(c,alphabet[c%26]);       // 「c%26」沒特別意義，只是因為剛好26個字母，所以讓每個character各占一個index，這裡就會變成ASCII % 26，然後相同character都會使用共同的index value就是了
+            // 再來就是，indexOf(c, int i) => 這裡的用法是說從i這個index開始往下找，c這個value => 然後因為一開始initialize為0，所以保證可以完整trace一次，如果沒找到則return -1
+            if(tmp == -1) return false;
+            alphabet[c%26] = tmp+1;     //tmp是找到c這個character的index，然後!!因為一個character只能用一次，所以下次就要從下一個index開始找起 => make sense
+        }
+        return true;
+    }
 }
