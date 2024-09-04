@@ -32,7 +32,8 @@ public class App {
         String a = "sadbutsad";
         String b = "sad";
 
-        AH ah = new AH();
-        System.out.println(ah.findMinArrowShots(heights));
+        AJ aj = new AJ();
+        aj.improvement("foo","bar");
+
     }
 }

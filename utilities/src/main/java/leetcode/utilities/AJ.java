@@ -83,7 +83,7 @@ public class AJ {
 
         for(int i=0; i<s.length(); i++){
             char a = s.charAt(i);
-            char b = s.charAt(i);
+            char b = t.charAt(i);
 
             if(sTot.containsKey(a)){
                if(sTot.get(a) != b)
@@ -92,7 +92,7 @@ public class AJ {
                 sTot.put(a,b);
             }
 
-            if(tTos.containsKey(b)){
+            if(tTos.containsKey(b)){            //理解為何要雙向都檢查，假如只檢查單向的情況下，有可以發生a & b 都對應c，但這就錯了，所以要雙向檢查，單向檢查不出來
                 if(tTos.get(b) != a)
                     return false;
             }else{
