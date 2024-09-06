@@ -39,6 +39,7 @@ public class AJ {
      * @param s
      * @param t
      * @return
+     * => not fit general case
      */
     public boolean isIsomorphic(String s, String t){
         if(s.length() != t.length())
@@ -92,12 +93,48 @@ public class AJ {
                 sTot.put(a,b);
             }
 
-            if(tTos.containsKey(b)){            //理解為何要雙向都檢查，假如只檢查單向的情況下，有可以發生a & b 都對應c，但這就錯了，所以要雙向檢查，單向檢查不出來
+            if(tTos.containsKey(b)){       //OK，知道為何要雙向都檢查，假如只檢查單向的情況下，有可以發生a & b 都對應c，但這就錯了，所以要雙向檢查，單向檢查不出來
                 if(tTos.get(b) != a)
                     return false;
             }else{
                 tTos.put(b,a);
             }
+        }
+        return true;
+    }
+
+    /**
+     * idea => 創建兩個empty ary，因為要起到「同構」的效果，所以這裡就是要給兩個字元綁在一起，這裡的方法是「塞一個共同value」，
+     * value是多少並不重要，重要的是，這個value起到了「識別」的作用。好比，string s & string t，第一輪的對應的字元分別為
+     * a & b，那此時，為了將他們的關聯性綁再一起，這裡隨便塞一個value，這裡採用「i+1」，並且將這個value存放在自己ASCII的index當中
+     * ，像是a就是97，b就是98，然後他們的value都是塞1，那關聯性就建立起來了，因為假設下一輪string中的字元對應是c&b，那這裡就會有問題，
+     * 因為c的99 index value還是0，但是tAry的b 98 index已經是1，這就代表說，他是與別人有關聯的了，具體是誰呢，就是那個當初依樣跟我份配1
+     * 的那個人，然後如果又出現一組a&b，驗證過他們value一樣那就ok，至於後面assign value塞多少根本不重要，重要的是他們綁再一起
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean other(String s, String t){
+        if(s.length()!=t.length())
+            return false;
+
+//        int[] sAry = new int[26];       //limit by a~z range, work => but this case use more than alphabet, 連標點符號都有
+//        int[] tAry = new int[26];
+        int[] sAry = new int[256];
+        int[] tAry = new int[256];
+
+        for(int i=0; i<s.length(); i++){
+            char a = s.charAt(i);
+            char b = t.charAt(i);
+
+//            if(sAry[a%26]!=tAry[b%26])
+            if(sAry[a]!=tAry[b])
+                return false;
+
+//            sAry[a%26] = i+1;       //必須+1，因為要跟initialize value的0做區分，不然就變成所已經用過的東西，卻還保持0，那其他0的也可以過來搭
+//            tAry[b%26] = i+1;       //所以，雖然確實這裡assign的value是多少並不重要，但就是要跟initial做區隔
+            sAry[a] = i+1;
+            tAry[b] = i+1;
         }
         return true;
     }

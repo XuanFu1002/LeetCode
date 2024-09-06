@@ -20,7 +20,7 @@ public class App {
 //        String result = join(tokens);
 //        System.out.println(WordUtils.capitalize(result));
 
-        int[] gas = {5,1,2,3,4};
+        int[] gas = {3,2,4};
         int[] cost = {4,4,1,5,1};
 //        int[] heights= {2,8,5,5,6,1,7,4,5};
 //        int[] heights= {8,9,3,6,9,6,8,0,7,6,8,1};
@@ -32,8 +32,8 @@ public class App {
         String a = "sadbutsad";
         String b = "sad";
 
-        AJ aj = new AJ();
-        aj.improvement("foo","bar");
+        AM am = new AM();
+        am.improvement(gas,6);
 
     }
 }
