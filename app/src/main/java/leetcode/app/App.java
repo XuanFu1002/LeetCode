@@ -32,8 +32,8 @@ public class App {
         String a = "sadbutsad";
         String b = "sad";
 
-        AM am = new AM();
-        am.improvement(gas,6);
+        AN an = new AN();
+        System.out.println(an.isHappy(2));
 
     }
 }
