@@ -21,9 +21,6 @@
  */
 package leetcode.utilities;
 
-import sun.management.snmp.jvmmib.EnumJvmMemManagerState;
-
-import java.net.Inet4Address;
 import java.util.HashMap;
 import java.util.Map;
 
