@@ -175,4 +175,46 @@ public class Q {
 
         return trip;
     }
+
+    /**
+     * 透過觀察，我確實知道，我的結論是「要能夾」，夾就要找left、right的min height
+     * => 這邊chat，就將問題拆分得很簡單、明確
+     * => 他這邊將left、right高度分開找，個別找去找他最他的容忍上限，i.e.用Max去找
+     * ，個別找完並且存完資料後開始比對，left、right要找共同能達到的高度，i.e. min，然後再去扣除實際高度
+     * => 就可以得出每個位置，可以裝多少水
+     * @param height
+     * @return
+     */
+    public int chatIdea(int[] height) {
+        if (height == null || height.length == 0) {
+            return 0;
+        }
+
+        int n = height.length;
+        int[] leftMax = new int[n];
+        int[] rightMax = new int[n];
+        int waterTrapped = 0;
+
+        // Fill leftMax array
+        leftMax[0] = height[0];
+        for (int i = 1; i < n; i++) {
+            leftMax[i] = Math.max(leftMax[i - 1], height[i]);
+        }
+
+        // Fill rightMax array
+        rightMax[n - 1] = height[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            rightMax[i] = Math.max(rightMax[i + 1], height[i]);
+        }
+
+        // Calculate the water trapped at each bar
+        for (int i = 0; i < n; i++) {
+            int waterAtI = Math.min(leftMax[i], rightMax[i]) - height[i];
+            if (waterAtI > 0) {
+                waterTrapped += waterAtI;
+            }
+        }
+
+        return waterTrapped;
+    }
 }

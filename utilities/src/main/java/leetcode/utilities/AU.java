@@ -55,4 +55,15 @@ public class AU {
     public int mySqrt(int x) {
         return (int)Math.sqrt(x);
     }
+
+    /**
+     * 50.  2024/9/17
+     * just test whether u know Math.pow() API or not => which let u count n power of x, x^n
+     * @param x
+     * @param n
+     * @return
+     */
+    public double myPow(double x, int n) {
+        return Math.pow(x,n);
+    }
 }
