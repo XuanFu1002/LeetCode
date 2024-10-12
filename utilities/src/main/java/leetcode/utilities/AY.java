@@ -26,7 +26,7 @@
  * - Friend 0 leaves at time 4 and chair 0 becomes empty.
  * - Friend 2 arrives at time 4 and sits on chair 0.
  * Since friend 1 sat on chair 1, we return 1.
- * 
+ *
  * Example 2:
  * Input: times = [[3,10],[1,5],[2,6]], targetFriend = 0
  * Output: 2
