@@ -29,12 +29,14 @@ public class App {
         int[][] heights= {{9,12},{1,10},{4,11},{8,12},{3,9},{6,9},{6,7}};
         String string = "MCMXCIV";
         String[] test = {"acc","aaa","aaba"};
+        String test2 = ""+string.charAt(1)+ string.charAt(2);
+//        System.out.print(test2);
         String a = "sadbutsad";
         String b = "sad";
 
         int[] ariLea = {756902131,995414896,95906472,149914376,387433380,848985151};
 
-        BB bb = new BB();
-        System.out.println(bb.otherApproach(ariLea,6));
+        BC bc = new BC();
+        System.out.println(bc.otherApproach("10"));
     }
 }
