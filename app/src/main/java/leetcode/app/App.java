@@ -37,6 +37,7 @@ public class App {
         int[] ariLea = {756902131,995414896,95906472,149914376,387433380,848985151};
 
         BC bc = new BC();
-        System.out.println(bc.otherApproach("10"));
+        BD bd = new BD();
+        System.out.println(bd.maximumSwap(1993));
     }
 }
